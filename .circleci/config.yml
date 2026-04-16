@@ -16,7 +16,14 @@ jobs:
       - checkout
       - run:
           name: Build Step
-          command: echo "Building the project..."
+          command: |
+            echo "Building..."
+            sleep 30
+            mkdir -p artifacts
+            echo "Build Output" > artifacts/build.txt
+      - store_artifacts:
+          path: artifacts
+          destination: build-artifacts
 
   test:
     docker:
@@ -25,7 +32,14 @@ jobs:
       - checkout
       - run:
           name: Test Step
-          command: echo "Running tests..."
+          command: |
+            echo "Testing..."
+            sleep 30
+            mkdir -p test-results
+            echo "Test Results" > test-results/results.txt
+      - store_artifacts:
+          path: test-results
+          destination: test-artifacts
 
   deploy:
     docker:
@@ -34,7 +48,14 @@ jobs:
       - checkout
       - run:
           name: Deploy Step
-          command: echo "Deploying to << pipeline.parameters.deploy_env >>..."
+          command: |
+            echo "Deploying to << pipeline.parameters.deploy_env >>..."
+            sleep 30
+            mkdir -p deploy-logs
+            echo "Deploy Log" > deploy-logs/deploy.txt
+      - store_artifacts:
+          path: deploy-logs
+          destination: deploy-artifacts
 
 workflows:
   build-test-deploy:
@@ -46,4 +67,3 @@ workflows:
       - deploy:
           requires:
             - test
-
