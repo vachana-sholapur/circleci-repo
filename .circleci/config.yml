@@ -1,0 +1,49 @@
+version: 2.1
+
+parameters:
+  deploy_env:
+    type: string
+    default: "staging"
+  run_tests:
+    type: boolean
+    default: true
+
+jobs:
+  build:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: Build Step
+          command: echo "Building the project..."
+
+  test:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: Test Step
+          command: echo "Running tests..."
+
+  deploy:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: Deploy Step
+          command: echo "Deploying to << pipeline.parameters.deploy_env >>..."
+
+workflows:
+  build-test-deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test
+
