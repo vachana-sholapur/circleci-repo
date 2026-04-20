@@ -18,7 +18,7 @@ jobs:
           name: Build Step
           command: |
             echo "Building..."
-            sleep 30
+            sleep 300
             mkdir -p artifacts
             echo "Build Output" > artifacts/build.txt
       - store_artifacts:
@@ -34,7 +34,7 @@ jobs:
           name: Test Step
           command: |
             echo "Testing..."
-            sleep 30
+            sleep 300
             mkdir -p test-results
             echo "Test Results" > test-results/results.txt
       - store_artifacts:
@@ -49,8 +49,8 @@ jobs:
       - run:
           name: Deploy Step
           command: |
-            echo "Deploying to << pipeline.parameters.deploy_env >>..."
-            sleep 30
+            echo "Deploying..."
+            sleep 300
             mkdir -p deploy-logs
             echo "Deploy Log" > deploy-logs/deploy.txt
       - store_artifacts:
